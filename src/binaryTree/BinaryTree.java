@@ -62,11 +62,9 @@ public class BinaryTree implements Set {
         Object[] r = new Object[size()];
         Iterator it = iterator();
         for (int i = 0; i < r.length; i++) {
-            if (! it.hasNext())
-                return Arrays.copyOf(r, i);
             r[i] = it.next();
         }
-        return r;
+        return Arrays.copyOf(r, size());
     }
 
     @Override
@@ -153,12 +151,29 @@ public class BinaryTree implements Set {
 
     @Override
     public boolean removeAll(Collection c) {
+        int count = 0;
+        for (int i = 0; i < c.size(); i++) {
+            if (contains(c.toArray()[i])) {
+                remove(c.toArray()[i]);
+                count++;
+            }
+        }
+        if (count > 0)
+            return true;
         return false;
     }
 
     @Override
     public boolean retainAll(Collection c) {
-        return false;
+        if (containsAll(c)&&c.size()==size())
+            return false;
+        BinaryTree result = new BinaryTree();
+        for (int i = 0; i < c.size(); i++) {
+            if (contains(c.toArray()[i]))
+                result.add(c.toArray()[i]);
+        }
+        root = result.root;
+        return true;
     }
 
     @Override
@@ -175,7 +190,16 @@ public class BinaryTree implements Set {
 
     @Override
     public Object[] toArray(Object[] a) {
-        return new Object[0];
+        if (a.length < size())
+            return toArray();
+        Object[] result = a;
+        Iterator it = iterator();
+        for (int i = 0; i < result.length; i++)
+            result[i] = it.next();
+        if (a.length > size)
+            a[size] = null;
+        return a;
+
     }
 
 

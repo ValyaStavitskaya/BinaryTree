@@ -84,7 +84,7 @@ class BinaryTreeTest {
         Assertions.assertTrue(binaryTree.removeAll(tree));
         set.remove(2);
         set.remove(8);
-        Assertions.assertEquals(set,binaryTree);
+        Assertions.assertEquals(set, binaryTree);
         Set tree2 = new TreeSet();
         tree2.add(15);
         tree2.add(20);
